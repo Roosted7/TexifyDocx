@@ -26,23 +26,24 @@ def process_run(run, para, doc):
             
             if tag:
                 table = doc.add_table(rows=1, cols=2)
-                table.autofit = False
-                table.columns[0].width = Inches(5)
-                table.columns[1].width = Inches(1.2)
+                table.allow_autofit = False
+                table.columns[0].width = Inches(5)      # 80% of the page width
+                table.columns[1].width = Inches(1.2)    # 20% for the tag
 
                 cell_math = table.cell(0, 0)
                 cell_math.vertical_alignment = WD_ALIGN_VERTICAL.CENTER
                 math_para = cell_math.paragraphs[0]
                 math_elem = create_math_xml(latex_content, inline=False)
-                math_para._p.append(math_elem)
                 math_para.alignment = WD_ALIGN_PARAGRAPH.CENTER
+                math_para._p.append(math_elem)
+
 
                 cell_tag = table.cell(0, 1)
                 cell_tag.vertical_alignment = WD_ALIGN_VERTICAL.CENTER
                 tag_para = cell_tag.paragraphs[0]
                 tag_elem = create_math_xml(f"({tag})", inline=False)
-                tag_para._p.append(tag_elem)
                 tag_para.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+                tag_para._p.append(tag_elem)
 
                 current_xml.addnext(table._element)
                 current_xml = table._element
